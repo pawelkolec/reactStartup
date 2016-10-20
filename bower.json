@@ -1,0 +1,26 @@
+{
+  "name": "react-webpack-template",
+  "description": "A base skeleton template for react and webpack without task runners",
+  "main": "server.js",
+  "authors": [],
+  "license": "MIT",
+  "keywords": [
+    "React",
+    "Webpack",
+    "Babel",
+    "Boilerplate",
+    "Demo"
+  ],
+  "homepage": "https://github.com/react-webpack-generators/react-webpack-template",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
