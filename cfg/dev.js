@@ -15,7 +15,7 @@ let config = Object.assign({}, baseConfig, {
     './src/index'
   ],
   cache: true,
-  devtool: 'eval-source-map',
+  devtool: 'inline-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoErrorsPlugin(),
@@ -34,6 +34,16 @@ config.module.loaders.push({
     config.additionalPaths,
     [ path.join(__dirname, '/../src') ]
   )
+});
+
+config.module.loaders.push({
+    test: /\.css$/,
+    loader: 'style-loader!css-loader'
+});
+
+config.module.loaders.push({
+    test: /\.less/,
+    loader: 'style-loader!css-loader!less-loader'
 });
 
 module.exports = config;

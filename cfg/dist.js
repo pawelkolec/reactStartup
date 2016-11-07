@@ -9,6 +9,10 @@ let defaultSettings = require('./defaults');
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');
 
+let ExtractTextPlugin = require('extract-text-webpack-plugin');
+let HtmlWebpackPlugin = require('../utilies/html-webpack-plugin/index');
+
+
 let config = Object.assign({}, baseConfig, {
   entry: path.join(__dirname, '../src/index'),
   cache: false,
@@ -21,10 +25,16 @@ let config = Object.assign({}, baseConfig, {
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false
     }),
-    new webpack.optimize.UglifyJsPlugin(),
+    new ExtractTextPlugin("styles.css", {allChunks: false}),
+    /*new webpack.optimize.UglifyJsPlugin(),*/
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.NoErrorsPlugin()
+    new webpack.NoErrorsPlugin(),
+    new HtmlWebpackPlugin({
+      filename: '../index.html',
+      template: './src/index.html',
+      cssOnly: true
+    })
   ],
   module: defaultSettings.getDefaultModules()
 });
@@ -37,6 +47,11 @@ config.module.loaders.push({
     config.additionalPaths,
     [ path.join(__dirname, '/../src') ]
   )
+});
+
+config.module.loaders.push({
+    test: /\.(less|css)$/,
+    loader: ExtractTextPlugin.extract("style-loader", "css-loader!autoprefixer-loader!less-loader")
 });
 
 module.exports = config;
