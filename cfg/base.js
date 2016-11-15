@@ -8,6 +8,14 @@ let defaultSettings = require('./defaults');
 // let npmBase = path.join(__dirname, '../node_modules');
 // let additionalPaths = [ path.join(npmBase, 'react-bootstrap') ];
 let additionalPaths = [];
+let staticPath = '';
+
+if(process.env.REACT_WEBPACK_ENV == "dist"){
+    staticPath = './dist/';
+}
+else {
+    staticPath = './src/';
+}
 
 module.exports = {
   additionalPaths: additionalPaths,
@@ -20,7 +28,7 @@ module.exports = {
     publicPath: defaultSettings.publicPath
   },
   devServer: {
-    contentBase: './src/',
+    contentBase: staticPath,
     historyApiFallback: true,
     hot: true,
     port: defaultSettings.port,

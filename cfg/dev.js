@@ -7,6 +7,7 @@ let defaultSettings = require('./defaults');
 
 // Add needed plugins here
 let BowerWebpackPlugin = require('bower-webpack-plugin');
+let LiveReloadPlugin = require('webpack-livereload-plugin');
 
 let config = Object.assign({}, baseConfig, {
   entry: [
@@ -18,6 +19,7 @@ let config = Object.assign({}, baseConfig, {
   devtool: 'inline-source-map',
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new LiveReloadPlugin({}),
     new webpack.NoErrorsPlugin(),
     new BowerWebpackPlugin({
       searchResolveModulesDirectories: false

@@ -11,6 +11,7 @@ let BowerWebpackPlugin = require('bower-webpack-plugin');
 
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let HtmlWebpackPlugin = require('../utilies/html-webpack-plugin/index');
+let HtmlPluginRemove = require('html-webpack-plugin-remove');
 
 
 let config = Object.assign({}, baseConfig, {
@@ -30,6 +31,7 @@ let config = Object.assign({}, baseConfig, {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.AggressiveMergingPlugin(),
     new webpack.NoErrorsPlugin(),
+    new HtmlPluginRemove(/<script.*?src="..*?livereload.js".*?<\/script>/g),
     new HtmlWebpackPlugin({
       filename: '../index.html',
       template: './src/index.html',
