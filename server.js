@@ -6,6 +6,10 @@ const WebpackDevServer = require('webpack-dev-server');
 const config = require('./webpack.config');
 const open = require('open');
 
+var express = require('express');
+var proxy = require('proxy-middleware');
+var url = require('url');
+
 /**
  * Flag indicating whether webpack compiled for the first time.
  * @type {boolean}
@@ -14,12 +18,26 @@ let isInitialCompilation = true;
 
 const compiler = webpack(config);
 
+// --------your proxy----------------------
+var app = express();
+// proxy the request for static assets
+app.use('/assets', proxy(url.parse('http://localhost:' + config.port + '/assets')));
+
+app.get('/*', function(req, res) {
+    res.sendFile(config.srcPath + '/index.html');
+});
+
+// -----your-webpack-dev-server------------------
 new WebpackDevServer(compiler, config.devServer)
 .listen(config.port, 'localhost', (err) => {
   if (err) {
     console.log(err);
   }
   console.log('Listening at localhost:' + config.port);
+});
+
+app.listen(config.expressServerPort, function () {
+    open('http://localhost:' + config.expressServerPort);
 });
 
 compiler.plugin('done', () => {

@@ -20,6 +20,8 @@ else {
 module.exports = {
   additionalPaths: additionalPaths,
   port: defaultSettings.port,
+  expressServerPort: defaultSettings.expressServerPort,
+  srcPath: defaultSettings.srcPath,
   debug: true,
   devtool: 'eval',
   output: {
