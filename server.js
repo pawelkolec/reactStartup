@@ -10,6 +10,10 @@ var express = require('express');
 var proxy = require('proxy-middleware');
 var url = require('url');
 
+var fs = require('fs');
+var path = require('path');
+var COMMENTS_FILE = path.join(__dirname, 'comments.json');
+
 /**
  * Flag indicating whether webpack compiled for the first time.
  * @type {boolean}
@@ -20,6 +24,30 @@ const compiler = webpack(config);
 
 // --------your proxy----------------------
 var app = express();
+
+// Additional middleware which will set headers that we need on each request.
+app.use(function(req, res, next) {
+    // Set permissive CORS header - this allows this server to be used only as
+    // an API server in conjunction with something like webpack-dev-server.
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+    // Disable caching so we'll always get the latest comments.
+    res.setHeader('Cache-Control', 'no-cache');
+    next();
+});
+
+app.get('/api/comments', function(req, res) {
+    fs.readFile(COMMENTS_FILE, function(err, data) {
+        
+        if (err) {
+            console.error(err);
+            process.exit(1);
+        }
+        
+        res.json(JSON.parse(data));
+    });
+});
+
 // proxy the request for static assets
 app.use('/assets', proxy(url.parse('http://localhost:' + config.port + '/assets')));
 

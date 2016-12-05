@@ -13,6 +13,8 @@ let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let HtmlWebpackPlugin = require('../utilies/html-webpack-plugin/index');
 let HtmlPluginRemove = require('html-webpack-plugin-remove');
 
+let CopyWebpackPlugin = require('copy-webpack-plugin');
+
 
 let config = Object.assign({}, baseConfig, {
   entry: path.join(__dirname, '../src/index'),
@@ -36,7 +38,10 @@ let config = Object.assign({}, baseConfig, {
       filename: '../index.html',
       template: './src/index.html',
       cssOnly: true
-    })
+    }),
+    new CopyWebpackPlugin([
+        { from: './src/components/api/api.config.json', to: './src/components/api/api.config.json' }
+    ])
   ],
   module: defaultSettings.getDefaultModules()
 });

@@ -21,7 +21,7 @@ module.exports = {
   additionalPaths: additionalPaths,
   port: defaultSettings.port,
   expressServerPort: defaultSettings.expressServerPort,
-  srcPath: defaultSettings.srcPath,
+  srcPath: path.join(__dirname, '/../' + staticPath),
   debug: true,
   devtool: 'eval',
   output: {
